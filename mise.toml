@@ -1,7 +1,7 @@
 min_version = "2024.11.1"
 
 [tools]
-go = "1.24"
+go = "1.24.5"
 golangci-lint = "2.8.0"
 
 [tasks.build]
