@@ -10,7 +10,7 @@
 ## Package Structure
 
 ```
-cmd/diagnoose/        CLI entry point, creates tea.Program
+cmd/netmon/        CLI entry point, creates tea.Program
 internal/tui/         Bubbletea application
   model.go            Model struct, NewModel(), Init()
   update.go           Update() message handler, commands
@@ -38,13 +38,17 @@ internal/styles/      UI styling
 ## Design Decisions
 
 ### Interface-based command execution
+
 `Runner` interface in `ss.go` allows injecting mock output in tests. Tests never execute real system commands.
 
 ### Parser as pure function
+
 `Parse(string) []Connection` has no side effects. This is the primary test target with table-driven tests covering all connection states, IPv6, missing process info, and edge cases.
 
 ### internal/ over pkg/
+
 This is a CLI application, not a library. Nothing in this project needs to be importable by external packages.
 
 ### Bubbletea MVU pattern
+
 Follows the standard Model-View-Update architecture. Messages are the only way to update state, keeping the update logic testable and predictable.

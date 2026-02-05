@@ -6,13 +6,13 @@ golangci-lint = "2.8.0"
 
 [tasks.build]
 description = "Build the binary"
-run = "go build -o bin/diagnoose ./cmd/diagnoose/"
+run = "go build -o bin/netmon ./cmd/netmon/"
 sources = ["**/*.go", "go.mod", "go.sum"]
-outputs = ["bin/diagnoose"]
+outputs = ["bin/netmon"]
 
 [tasks.run]
 description = "Build and run"
-run = "go run ./cmd/diagnoose/"
+run = "go run ./cmd/netmon/"
 
 [tasks.test]
 description = "Run all tests"

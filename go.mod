@@ -1,4 +1,4 @@
-module github.com/GabrielDCelery/diagnoose
+module github.com/GabrielDCelery/netmon
 
 go 1.24
 

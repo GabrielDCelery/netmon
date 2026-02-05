@@ -7,7 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/GabrielDCelery/diagnoose/internal/netstat"
+	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
 
 const refreshInterval = 2 * time.Second
