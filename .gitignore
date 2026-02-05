@@ -1,6 +1,6 @@
 # Binaries
 bin/
-diagnoose
+/diagnoose
 
 # Coverage
 coverage.out
