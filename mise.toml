@@ -1,0 +1,48 @@
+min_version = "2024.11.1"
+
+[tools]
+go = "1.24"
+
+[tasks.build]
+description = "Build the binary"
+run = "go build -o bin/diagnoose ./cmd/diagnoose/"
+sources = ["**/*.go", "go.mod", "go.sum"]
+outputs = ["bin/diagnoose"]
+
+[tasks.run]
+description = "Build and run"
+run = "go run ./cmd/diagnoose/"
+
+[tasks.test]
+description = "Run all tests"
+run = "go test -v -race -coverprofile=coverage.out ./..."
+
+[tasks.lint]
+description = "Run golangci-lint"
+run = "golangci-lint run ./..."
+
+[tasks.fmt]
+description = "Format code"
+run = "gofmt -w ."
+
+[tasks.vet]
+description = "Run go vet"
+run = "go vet ./..."
+
+[tasks.clean]
+description = "Remove build artifacts"
+run = "rm -rf bin/ coverage.out coverage.html"
+
+[tasks.coverage]
+description = "Generate HTML coverage report"
+run = """
+go test -coverprofile=coverage.out ./...
+go tool cover -html=coverage.out -o coverage.html
+"""
+
+[tasks.setup]
+description = "Install tools and download dependencies"
+run = """
+mise install
+go mod download
+"""

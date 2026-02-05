@@ -1,0 +1,21 @@
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - unused
+    - gofmt
+    - goimports
+    - gocritic
+
+linters-settings:
+  gocritic:
+    enabled-checks:
+      - dupImport
+      - nestingReduce
+      - unnamedResult
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
