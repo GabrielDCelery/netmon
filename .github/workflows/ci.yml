@@ -11,9 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: "1.24"
+      - uses: jdx/mise-action@v3
+
+      - name: Install tools
+        run: mise install
 
       - name: Build
         run: go build -o bin/diagnoose ./cmd/diagnoose/
@@ -24,9 +25,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: "1.24"
+      - uses: jdx/mise-action@v3
+
+      - name: Install tools
+        run: mise install
 
       - name: Test
         run: go test -v -race -coverprofile=coverage.out ./...
@@ -43,11 +45,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: "1.24"
+      - uses: jdx/mise-action@v3
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: latest
+      - name: Install tools
+        run: mise install
+
+      - name: Run linting
+        run: mise run lint

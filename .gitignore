@@ -1,6 +1,6 @@
 # Binaries
 bin/
-diagnoose
+/diagnoose
 
 # Coverage
 coverage.out
@@ -19,3 +19,4 @@ Thumbs.db
 
 # Go
 vendor/
+thoughts/

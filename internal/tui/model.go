@@ -1,6 +1,8 @@
 package tui
 
 import (
+	"time"
+
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -17,6 +19,7 @@ type Model struct {
 	width       int
 	height      int
 	ready       bool
+	lastRefresh time.Time
 }
 
 // NewModel creates a new Model with default values.

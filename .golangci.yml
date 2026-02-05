@@ -1,21 +1,29 @@
+version: "2"
 linters:
   enable:
-    - errcheck
-    - govet
-    - staticcheck
-    - unused
-    - gofmt
-    - goimports
     - gocritic
-
-linters-settings:
-  gocritic:
-    enabled-checks:
-      - dupImport
-      - nestingReduce
-      - unnamedResult
-
+  settings:
+    gocritic:
+      enabled-checks:
+        - dupImport
+        - nestingReduce
+        - unnamedResult
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
 issues:
-  exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

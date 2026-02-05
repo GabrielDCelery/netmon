@@ -59,6 +59,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case connectionsMsg:
 		m.err = msg.err
 		m.connections = msg.connections
+		m.lastRefresh = time.Now()
 		m.table.SetRows(connectionsToRows(msg.connections))
 		return m, tick()
 
