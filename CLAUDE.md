@@ -46,7 +46,7 @@ Do **not** modify these files without explicit user approval:
 ## Project Structure
 
 ```
-cmd/diagnoose/     — CLI entry point
+cmd/netmon/     — CLI entry point
 internal/tui/      — Bubbletea model, update, view
 internal/netstat/  — ss command execution and parsing
 internal/styles/   — Lipgloss style definitions

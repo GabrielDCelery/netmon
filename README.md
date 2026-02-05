@@ -1,15 +1,15 @@
-# diagnoose
+# netmon
 
 Terminal UI for Linux networking diagnostics. Displays live network connection data from `ss` in an interactive table with color-coded states and auto-refresh.
 
 ## Quick Start
 
 ```sh
-git clone https://github.com/GabrielDCelery/diagnoose.git
-cd diagnoose
+git clone https://github.com/GabrielDCelery/netmon.git
+cd netmon
 mise run setup
 mise run build
-sudo ./bin/diagnoose
+sudo ./bin/netmon
 ```
 
 > `sudo` is needed to see process information from `ss -tunap`.
@@ -24,7 +24,7 @@ sudo ./bin/diagnoose
 ### Package Structure
 
 ```
-cmd/diagnoose/     Entry point
+cmd/netmon/     Entry point
 internal/tui/      Bubbletea model, update, view
 internal/netstat/  ss command execution and output parsing
 internal/styles/   Lipgloss style definitions
@@ -41,7 +41,7 @@ mise run test      # Run tests with race detector and coverage
 mise run lint      # Run golangci-lint
 mise run fmt       # Format code with gofmt
 mise run vet       # Run go vet
-mise run build     # Build binary to bin/diagnoose
+mise run build     # Build binary to bin/netmon
 mise run coverage  # Generate HTML coverage report
 ```
 

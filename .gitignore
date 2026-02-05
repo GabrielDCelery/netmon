@@ -1,6 +1,6 @@
 # Binaries
 bin/
-/diagnoose
+/netmon
 
 # Coverage
 coverage.out

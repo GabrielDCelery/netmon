@@ -1,5 +1,5 @@
 {
-  "_comment": "Apply with: gh api repos/GabrielDCelery/diagnoose/branches/main/protection --method PUT --input .github/settings/branch-protection.json",
+  "_comment": "Apply with: gh api repos/GabrielDCelery/netmon/branches/main/protection --method PUT --input .github/settings/branch-protection.json",
   "required_status_checks": {
     "strict": true,
     "contexts": ["Build", "Test", "Lint"]

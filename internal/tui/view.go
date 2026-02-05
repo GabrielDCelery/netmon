@@ -3,7 +3,7 @@ package tui
 import (
 	"fmt"
 
-	"github.com/GabrielDCelery/diagnoose/internal/styles"
+	"github.com/GabrielDCelery/netmon/internal/styles"
 )
 
 // View renders the TUI.
@@ -12,7 +12,7 @@ func (m Model) View() string {
 		return "Loading..."
 	}
 
-	title := styles.Title.Render("diagnoose — Network Connections")
+	title := styles.Title.Render("netmon — Network Connections")
 
 	var status string
 	if m.err != nil {

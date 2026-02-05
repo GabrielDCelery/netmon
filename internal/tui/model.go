@@ -7,7 +7,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/GabrielDCelery/diagnoose/internal/netstat"
+	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
 
 // Model holds the application state.
