@@ -43,11 +43,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/mise-action@v3
+
       - uses: actions/setup-go@v5
         with:
           go-version: "1.24"
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: latest
+      - name: Install tools
+        run: mise install
+
+      - name: Run linting
+        run: mise run lint
