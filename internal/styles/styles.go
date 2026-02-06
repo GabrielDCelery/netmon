@@ -20,6 +20,14 @@ var (
 	HelpText    = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262"))
 )
 
+// Flags panel styles.
+var (
+	FlagsPanelBorder = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color("240")).Padding(1)
+	FlagsPanelTitle  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("229"))
+	FlagName         = lipgloss.NewStyle().Foreground(lipgloss.Color("86")).Bold(true)
+	FlagDescription  = lipgloss.NewStyle().Foreground(lipgloss.Color("252"))
+)
+
 // StyleForState returns the appropriate lipgloss style for a connection state.
 func StyleForState(state string) lipgloss.Style {
 	switch state {

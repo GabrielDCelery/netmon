@@ -48,12 +48,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "ctrl+c":
 			return m, tea.Quit
+		case "?":
+			m.showFlagsPanel = !m.showFlagsPanel
+			m.updateTableWidth()
+			return m, nil
 		}
 
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
 		m.table.SetHeight(msg.Height - 4)
+		m.updateTableWidth()
 		m.ready = true
 
 	case connectionsMsg:
@@ -85,4 +90,37 @@ func connectionsToRows(conns []netstat.Connection) []table.Row {
 		}
 	}
 	return rows
+}
+
+// updateTableWidth adjusts the table width based on whether the flags panel is visible.
+func (m *Model) updateTableWidth() {
+	if m.showFlagsPanel && m.width > 0 {
+		// Allocate 75% to table, 25% to flags panel
+		// Adjust column widths proportionally
+		cols := m.table.Columns()
+		if len(cols) > 0 {
+			// Recalculate column widths to fit the new table width
+			cols[0].Width = 6  // Proto
+			cols[1].Width = 10 // State
+			cols[2].Width = 7  // Recv-Q
+			cols[3].Width = 7  // Send-Q
+			cols[4].Width = 20 // Local Address
+			cols[5].Width = 20 // Peer Address
+			cols[6].Width = 25 // Process
+			m.table.SetColumns(cols)
+		}
+	} else {
+		// Full width
+		cols := m.table.Columns()
+		if len(cols) > 0 {
+			cols[0].Width = 6  // Proto
+			cols[1].Width = 12 // State
+			cols[2].Width = 8  // Recv-Q
+			cols[3].Width = 8  // Send-Q
+			cols[4].Width = 25 // Local Address
+			cols[5].Width = 25 // Peer Address
+			cols[6].Width = 30 // Process
+			m.table.SetColumns(cols)
+		}
+	}
 }
