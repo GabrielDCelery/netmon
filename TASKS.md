@@ -23,3 +23,4 @@ Build the primary TUI view for displaying network connections from `ss -tunap`.
 - [ ] q/ctrl+c quits cleanly
 - [ ] Parser tests cover all connection states
 - [ ] Works on Linux (graceful error on other platforms)
+- [x] Shows currently running command in TUI header

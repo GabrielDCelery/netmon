@@ -8,6 +8,7 @@ import (
 // Runner executes a system command and returns its output.
 type Runner interface {
 	Run(ctx context.Context) (string, error)
+	Command() string
 }
 
 // SSRunner executes the ss command to retrieve socket statistics.
@@ -26,4 +27,9 @@ func (r *SSRunner) Run(ctx context.Context) (string, error) {
 		return "", err
 	}
 	return string(out), nil
+}
+
+// Command returns the full command string being executed.
+func (r *SSRunner) Command() string {
+	return "ss -tunap"
 }
