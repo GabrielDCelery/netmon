@@ -12,14 +12,15 @@ import (
 
 // Model holds the application state.
 type Model struct {
-	table       table.Model
-	connections []netstat.Connection
-	runner      netstat.Runner
-	err         error
-	width       int
-	height      int
-	ready       bool
-	lastRefresh time.Time
+	table          table.Model
+	connections    []netstat.Connection
+	runner         netstat.Runner
+	err            error
+	width          int
+	height         int
+	ready          bool
+	lastRefresh    time.Time
+	showFlagsPanel bool
 }
 
 // NewModel creates a new Model with default values.
@@ -54,8 +55,9 @@ func NewModel() Model {
 	t.SetStyles(s)
 
 	return Model{
-		table:  t,
-		runner: netstat.NewSSRunner(),
+		table:          t,
+		runner:         netstat.NewSSRunner(),
+		showFlagsPanel: true,
 	}
 }
 
