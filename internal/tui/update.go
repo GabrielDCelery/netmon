@@ -8,6 +8,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	"github.com/GabrielDCelery/netmon/internal/netstat"
+	"github.com/GabrielDCelery/netmon/internal/styles"
 )
 
 const refreshInterval = 2 * time.Second
@@ -81,7 +82,7 @@ func connectionsToRows(conns []netstat.Connection) []table.Row {
 	for i, c := range conns {
 		rows[i] = table.Row{
 			c.Protocol,
-			c.State,
+			styles.StyleForState(c.State).Render(c.State),
 			c.RecvQ,
 			c.SendQ,
 			c.Local,
