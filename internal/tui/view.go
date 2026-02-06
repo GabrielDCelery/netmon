@@ -13,6 +13,7 @@ func (m Model) View() string {
 	}
 
 	title := styles.Title.Render("netmon — Network Connections")
+	cmdInfo := styles.CommandInfo.Render(fmt.Sprintf("Running: %s", m.runner.Command()))
 
 	var status string
 	if m.err != nil {
@@ -27,5 +28,5 @@ func (m Model) View() string {
 
 	help := styles.HelpText.Render("↑/↓: navigate • q: quit")
 
-	return fmt.Sprintf("%s\n%s\n%s\n%s", title, m.table.View(), status, help)
+	return fmt.Sprintf("%s\n%s\n%s\n%s\n%s", title, cmdInfo, m.table.View(), status, help)
 }

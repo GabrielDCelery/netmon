@@ -14,9 +14,10 @@ var (
 
 // UI element styles.
 var (
-	Title     = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D56F4")).Padding(0, 1)
-	StatusBar = lipgloss.NewStyle().Foreground(lipgloss.Color("#A0A0A0")).Padding(0, 1)
-	HelpText  = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262"))
+	Title       = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D56F4")).Padding(0, 1)
+	CommandInfo = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888")).Padding(0, 1)
+	StatusBar   = lipgloss.NewStyle().Foreground(lipgloss.Color("#A0A0A0")).Padding(0, 1)
+	HelpText    = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262"))
 )
 
 // StyleForState returns the appropriate lipgloss style for a connection state.
