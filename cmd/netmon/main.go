@@ -1,18 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"log"
 
 	tea "github.com/charmbracelet/bubbletea"
 
+	"github.com/GabrielDCelery/netmon/internal/logger"
 	"github.com/GabrielDCelery/netmon/internal/tui"
 )
 
 func main() {
-	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen())
+	logger, err := logger.NewLogger()
+	if err != nil {
+		log.Fatalf("Error: %v\n", err)
+	}
+	p := tea.NewProgram(tui.NewModel(logger), tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("Error: %v\n", err)
 	}
 }

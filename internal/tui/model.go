@@ -6,6 +6,7 @@ import (
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"go.uber.org/zap"
 
 	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
@@ -21,10 +22,14 @@ type Model struct {
 	ready          bool
 	lastRefresh    time.Time
 	showFlagsPanel bool
+	logger         *zap.Logger
 }
 
 // NewModel creates a new Model with default values.
-func NewModel() Model {
+func NewModel(logger *zap.Logger) Model {
+	if logger == nil {
+		logger = zap.NewNop()
+	}
 	columns := []table.Column{
 		{Title: "Proto", Width: 6},
 		{Title: "State", Width: 12},
@@ -58,6 +63,7 @@ func NewModel() Model {
 		table:          t,
 		runner:         netstat.NewSSRunner(),
 		showFlagsPanel: true,
+		logger:         logger,
 	}
 }
 

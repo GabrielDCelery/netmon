@@ -6,6 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
+	"go.uber.org/zap"
 
 	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
@@ -57,6 +58,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
+		m.logger.Log(zap.DebugLevel, "set window dimensions", zap.Int("width", m.width), zap.Int("height", m.height))
 		m.table.SetHeight(msg.Height - 4)
 		m.updateTableWidth()
 		m.ready = true
