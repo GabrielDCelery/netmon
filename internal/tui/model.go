@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"go.uber.org/zap"
 
-	"github.com/GabrielDCelery/netmon/internal/netstat"
+	"github.com/GabrielDCelery/netmon/internal/commands"
 )
 
 type ModelOption func(*Model)
@@ -22,8 +22,7 @@ func WithLogger(logger *zap.Logger) ModelOption {
 // Model holds the application state.
 type Model struct {
 	table          table.Model
-	connections    []netstat.Connection
-	runner         netstat.Runner
+	commandRunner  CommandRunner
 	err            error
 	width          int
 	height         int
@@ -66,7 +65,7 @@ func NewModel(opts ...ModelOption) Model {
 
 	m := Model{
 		table:          t,
-		runner:         netstat.NewSSRunner(),
+		commandRunner:  NewSSCommandRunner(commands.NewSSCommand()),
 		showFlagsPanel: true,
 		logger:         zap.NewNop(),
 	}
@@ -76,7 +75,13 @@ func NewModel(opts ...ModelOption) Model {
 	return m
 }
 
+// func (m *Model) switchCommand(command CommandType) {
+// 	if command == ssCommand {
+// 		m.runner = commands.NewSSRunner()
+// 	}
+// }
+
 // Init returns the initial command to execute.
 func (m Model) Init() tea.Cmd {
-	return fetchConnections(m.runner)
+	return runCommand(m.commandRunner)
 }

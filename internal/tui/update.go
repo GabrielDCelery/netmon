@@ -4,32 +4,19 @@ import (
 	"context"
 	"time"
 
-	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"go.uber.org/zap"
-
-	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
 
 const refreshInterval = 2 * time.Second
-
-// connectionsMsg carries the result of a connection fetch.
-type connectionsMsg struct {
-	connections []netstat.Connection
-	err         error
-}
 
 // tickMsg signals a refresh.
 type tickMsg time.Time
 
 // fetchConnections creates a command that runs ss and parses the output.
-func fetchConnections(runner netstat.Runner) tea.Cmd {
+func runCommand(runner CommandRunner) tea.Cmd {
 	return func() tea.Msg {
-		raw, err := runner.Run(context.Background())
-		if err != nil {
-			return connectionsMsg{err: err}
-		}
-		return connectionsMsg{connections: netstat.Parse(raw)}
+		return runner.Run(context.Background())
 	}
 }
 
@@ -63,35 +50,18 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.updateTableWidth()
 		m.ready = true
 
-	case connectionsMsg:
-		m.err = msg.err
-		m.connections = msg.connections
+	case CommandRunResults:
+		m.err = msg
 		m.lastRefresh = time.Now()
-		m.table.SetRows(connectionsToRows(msg.connections))
+		m.table.SetRows(m.commandRunner.Rows())
 		return m, tick()
 
 	case tickMsg:
-		return m, fetchConnections(m.runner)
+		return m, runCommand(m.commandRunner)
 	}
 
 	m.table, cmd = m.table.Update(msg)
 	return m, cmd
-}
-
-func connectionsToRows(conns []netstat.Connection) []table.Row {
-	rows := make([]table.Row, len(conns))
-	for i, c := range conns {
-		rows[i] = table.Row{
-			c.Protocol,
-			c.State,
-			c.RecvQ,
-			c.SendQ,
-			c.Local,
-			c.Peer,
-			c.Process,
-		}
-	}
-	return rows
 }
 
 // updateTableWidth adjusts the table width based on whether the flags panel is visible.
