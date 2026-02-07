@@ -40,7 +40,7 @@ func (m Model) View() string {
 		if !m.lastRefresh.IsZero() {
 			refreshTime = fmt.Sprintf(" • Last refresh: %s", m.lastRefresh.Format("15:04:05"))
 		}
-		status = styles.StatusBar.Render(fmt.Sprintf("%d connections%s", len(m.commandRunner.Rows()), refreshTime))
+		status = styles.StatusBar.Render(fmt.Sprintf("%d connections%s", len(m.table.Rows()), refreshTime))
 	}
 
 	help := styles.HelpText.Render("↑/↓: navigate • ?: toggle flags • q: quit")

@@ -13,13 +13,6 @@ const refreshInterval = 2 * time.Second
 // tickMsg signals a refresh.
 type tickMsg time.Time
 
-// fetchConnections creates a command that runs ss and parses the output.
-func runCommand(runner CommandRunner) tea.Cmd {
-	return func() tea.Msg {
-		return runner.Run(context.Background())
-	}
-}
-
 // tick returns a command that sends a tickMsg after the refresh interval.
 func tick() tea.Cmd {
 	return tea.Tick(refreshInterval, func(t time.Time) tea.Msg {
@@ -50,14 +43,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.updateTableWidth()
 		m.ready = true
 
-	case CommandRunResults:
-		m.err = msg
-		m.lastRefresh = time.Now()
+	case tickMsg:
+		err := m.commandRunner.Run(context.Background())
+		if err != nil {
+			m.err = err
+			return m, tick()
+		}
 		m.table.SetRows(m.commandRunner.Rows())
 		return m, tick()
-
-	case tickMsg:
-		return m, runCommand(m.commandRunner)
 	}
 
 	m.table, cmd = m.table.Update(msg)
