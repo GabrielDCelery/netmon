@@ -11,6 +11,14 @@ import (
 	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
 
+type ModelOption func(*Model)
+
+func WithLogger(logger *zap.Logger) ModelOption {
+	return func(m *Model) {
+		m.logger = logger
+	}
+}
+
 // Model holds the application state.
 type Model struct {
 	table          table.Model
@@ -26,10 +34,7 @@ type Model struct {
 }
 
 // NewModel creates a new Model with default values.
-func NewModel(logger *zap.Logger) Model {
-	if logger == nil {
-		logger = zap.NewNop()
-	}
+func NewModel(opts ...ModelOption) Model {
 	columns := []table.Column{
 		{Title: "Proto", Width: 6},
 		{Title: "State", Width: 12},
@@ -59,12 +64,16 @@ func NewModel(logger *zap.Logger) Model {
 		Bold(false)
 	t.SetStyles(s)
 
-	return Model{
+	m := Model{
 		table:          t,
 		runner:         netstat.NewSSRunner(),
 		showFlagsPanel: true,
-		logger:         logger,
+		logger:         zap.NewNop(),
 	}
+	for _, opt := range opts {
+		opt(&m)
+	}
+	return m
 }
 
 // Init returns the initial command to execute.
