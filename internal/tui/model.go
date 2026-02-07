@@ -1,14 +1,13 @@
 package tui
 
 import (
+	"context"
 	"time"
 
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"go.uber.org/zap"
-
-	"github.com/GabrielDCelery/netmon/internal/netstat"
 )
 
 type ModelOption func(*Model)
@@ -19,11 +18,17 @@ func WithLogger(logger *zap.Logger) ModelOption {
 	}
 }
 
+type CommandRunner interface {
+	Run(ctx context.Context) error // Runs command AND updates internal state
+	Columns() []table.Column
+	Rows() []table.Row
+	PrintCommandAsStr() string
+}
+
 // Model holds the application state.
 type Model struct {
 	table          table.Model
-	connections    []netstat.Connection
-	runner         netstat.Runner
+	commandRunner  CommandRunner
 	err            error
 	width          int
 	height         int
@@ -66,7 +71,7 @@ func NewModel(opts ...ModelOption) Model {
 
 	m := Model{
 		table:          t,
-		runner:         netstat.NewSSRunner(),
+		commandRunner:  NewSSRunner(),
 		showFlagsPanel: true,
 		logger:         zap.NewNop(),
 	}
@@ -76,7 +81,15 @@ func NewModel(opts ...ModelOption) Model {
 	return m
 }
 
+// func (m *Model) switchCommand(command CommandType) {
+// 	if command == ssCommand {
+// 		m.runner = commands.NewSSRunner()
+// 	}
+// }
+
 // Init returns the initial command to execute.
 func (m Model) Init() tea.Cmd {
-	return fetchConnections(m.runner)
+	return func() tea.Msg {
+		return tickMsg(time.Now())
+	}
 }
