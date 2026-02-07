@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error: %v\n", err)
 	}
-	p := tea.NewProgram(tui.NewModel(logger), tea.WithAltScreen())
+	p := tea.NewProgram(tui.NewModel(tui.WithLogger(logger)), tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		log.Fatalf("Error: %v\n", err)
 	}
