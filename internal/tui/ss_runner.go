@@ -60,3 +60,7 @@ func (r *SSRunner) Rows() []table.Row {
 func (r *SSRunner) PrintCommandAsStr() string {
 	return r.command.PrintCommandAsStr()
 }
+
+func (r *SSRunner) GetAvailableFlags() []commands.Flag {
+	return r.command.GetAvailableFlags()
+}

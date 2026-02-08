@@ -17,12 +17,28 @@ type Connection struct {
 	Process  string
 }
 
+type Flag struct {
+	Short       string
+	Description string
+	IsActive    bool
+}
+
 // SSCommand executes the ss command to retrieve socket statistics.
-type SSCommand struct{}
+type SSCommand struct {
+	flags []Flag
+}
 
 // NewSSCommand creates a new SSCommand.
 func NewSSCommand() *SSCommand {
-	return &SSCommand{}
+	return &SSCommand{
+		flags: []Flag{
+			{Short: "-t", Description: "Show TCP sockets", IsActive: true},
+			{Short: "-u", Description: "Show UDP sockets", IsActive: true},
+			{Short: "-n", Description: "Don't resolve service names", IsActive: true},
+			{Short: "-a", Description: "Display all sockets (listening and non-listening)", IsActive: true},
+			{Short: "-p", Description: "Show process using socket", IsActive: true},
+		},
+	}
 }
 
 // Run executes "ss -tunap" and returns the raw output.
@@ -37,7 +53,18 @@ func (r *SSCommand) Run(ctx context.Context) ([]Connection, error) {
 
 // Command returns the full command string being executed.
 func (r *SSCommand) PrintCommandAsStr() string {
-	return "ss -tunap"
+	command := "ss"
+	flags := ""
+	for _, flag := range r.flags {
+		if flag.IsActive {
+			flags += strings.ReplaceAll(flag.Short, "-", "")
+		}
+	}
+	if len(flags) > 0 {
+		command += " -"
+		command += flags
+	}
+	return command
 }
 
 // Parse takes raw ss -tunap output and returns a slice of Connection structs.
@@ -58,6 +85,10 @@ func Parse(raw string) []Connection {
 	}
 
 	return connections
+}
+
+func (r *SSCommand) GetAvailableFlags() []Flag {
+	return r.flags
 }
 
 func parseLine(line string) (Connection, bool) {
