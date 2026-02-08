@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/GabrielDCelery/netmon/internal/commands"
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -23,6 +24,7 @@ type CommandRunner interface {
 	Columns() []table.Column
 	Rows() []table.Row
 	PrintCommandAsStr() string
+	GetAvailableFlags() []commands.Flag
 }
 
 // Model holds the application state.
@@ -40,18 +42,10 @@ type Model struct {
 
 // NewModel creates a new Model with default values.
 func NewModel(opts ...ModelOption) Model {
-	columns := []table.Column{
-		{Title: "Proto", Width: 6},
-		{Title: "State", Width: 12},
-		{Title: "Recv-Q", Width: 8},
-		{Title: "Send-Q", Width: 8},
-		{Title: "Local Address", Width: 25},
-		{Title: "Peer Address", Width: 25},
-		{Title: "Process", Width: 30},
-	}
+	commandRunner := NewSSRunner()
 
 	t := table.New(
-		table.WithColumns(columns),
+		table.WithColumns(commandRunner.Columns()),
 		table.WithRows([]table.Row{}),
 		table.WithFocused(true),
 		table.WithHeight(20),
@@ -71,10 +65,11 @@ func NewModel(opts ...ModelOption) Model {
 
 	m := Model{
 		table:          t,
-		commandRunner:  NewSSRunner(),
+		commandRunner:  commandRunner,
 		showFlagsPanel: true,
 		logger:         zap.NewNop(),
 	}
+
 	for _, opt := range opts {
 		opt(&m)
 	}
