@@ -54,3 +54,10 @@ description = "Scan for vulnerabilites"
 run = """
 trivy fs --severity HIGH,CRITICAL --exit-code 1 .
 """
+
+[tasks.'bootstrap-github']
+description = "Bootstraps the GitHub repo wth the appropriate settings"
+run = """
+chmod +x ./.github/settings/enable-security.sh
+./.github/settings/enable-security.sh
+"""

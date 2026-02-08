@@ -11,13 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: jdx/mise-action@v3
+      - name: Upload SARIF for annotations
+        if: always()
+        uses: aquasecurity/trivy-action@v0.33.1
+        with:
+          scan-type: 'fs'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
 
-      - name: Install tools
-        run: mise install
-
-      - name: Run security check
-        run: mise run vuln
+      - uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
 
   build:
     name: Build
