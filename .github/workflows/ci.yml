@@ -5,6 +5,20 @@ on:
     branches: [main]
 
 jobs:
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v3
+
+      - name: Install tools
+        run: mise install
+
+      - name: Run security check
+        run: mise run vuln
+
   build:
     name: Build
     runs-on: ubuntu-latest
