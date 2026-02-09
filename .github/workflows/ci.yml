@@ -8,6 +8,9 @@ jobs:
   security:
     name: Security
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write # Required for dependency-snapshot submission (SBOM)
+      security-events: write # Required for sarif upload (Trivy)
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +32,8 @@ jobs:
         uses: anchore/sbom-action@v0.22.2
         with:
           path: .
-          artifact-name: sbom.spdx.json
+          dependency-snapshot: true # Submit to GitHub for Dependabot
+          # artifact-name: sbom.spdx.json
 
   build:
     name: Build
