@@ -3,6 +3,7 @@ min_version = "2024.11.1"
 [tools]
 go = "1.24.5"
 golangci-lint = "2.8.0"
+syft = "1.41.2"
 trivy = "0.69.1"
 
 [tasks.build]
@@ -53,6 +54,12 @@ go mod download
 description = "Scan for vulnerabilites"
 run = """
 trivy fs --severity HIGH,CRITICAL --exit-code 1 .
+"""
+
+[tasks.sbom]
+description = "Generate SBOM"
+run = """
+syft scan . -o spdx-json=sbom.spdx.json --source-name netmon --source-version dev
 """
 
 [tasks.'bootstrap-github']

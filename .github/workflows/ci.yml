@@ -24,6 +24,13 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0.22.2
+        with:
+          path: .
+          artifact-name: sbom.spdx.json
+
   build:
     name: Build
     runs-on: ubuntu-24.04

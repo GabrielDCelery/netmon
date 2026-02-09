@@ -23,3 +23,6 @@ thoughts/
 
 # Development
 logs/
+
+# SBOM
+sbom.spdx.json
